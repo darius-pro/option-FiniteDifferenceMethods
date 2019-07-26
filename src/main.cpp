@@ -4,8 +4,8 @@
 #include "BSEqn.h"
 #include "Option.h"
 #include "ExplicitMethod.h"
+#include "ImplicitMethod.h"
 #include "CNMethod.h"
-#include <Windows.h>
 
 using namespace std;
 
@@ -21,22 +21,25 @@ int main()
 
 	int imax = 200, jmax = 1000;
 
-	double time_start = GetTickCount();
-
-	/*
+	// Explicit Method
 	ExplicitMethod Method(&BSPDE, imax, jmax);
 	Method.solve();
+	cout << "Explicit Method: " << Method.v(0,0, s0) << endl;
 
-	double time_end = GetTickCount();
+	// Implicit Method - LU Decomposition
+	ImplicitMethods Method(&BSPDE, imax, jmax);
+	Method.solveByLUDecomposition();
+	cout << "Implicit Method (LU): " << Method.v(0,0, s0) << endl;
 
-	cout << "Price: " << Method.v(0.0, s0) << endl;
-	cout << "Calculation took: " << time_end - time_start << " ms" << endl << endl;
-	*/
+	// Implicit Method - Sucessive Over Relaxation
+	ImplicitMethods Method(&BSPDE, imax, jmax);
+	Method.solveBySOR();
+	cout << "Implicit Method (SOR): " << Method.v(0,0, s0) << endl;
 
+	// Crank Nicolson Method
 	CNMethod Method(&BSPDE, imax, jmax);
 	Method.solveByLUDecomposition();
-
-	cout << "Price: " << Method.v(0.0, s0) << endl;
+	cout << "Crank Nicolson Method: " << Method.v(0,0, s0) << endl;
 
 	system("pause");
 	return 0;
