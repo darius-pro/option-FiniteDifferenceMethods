@@ -4,7 +4,7 @@
 #include "BSEqn.h"
 #include "Option.h"
 #include "ExplicitMethod.h"
-#include "ImplicitMethod.h"
+#include "ImplicitMethods.h"
 #include "CNMethod.h"
 
 using namespace std;
@@ -22,24 +22,24 @@ int main()
 	int imax = 200, jmax = 1000;
 
 	// Explicit Method
-	ExplicitMethod Method(&BSPDE, imax, jmax);
-	Method.solve();
-	cout << "Explicit Method: " << Method.v(0,0, s0) << endl;
+	ExplicitMethod Method1(&BSPDE, imax, jmax);
+	Method1.solve();
+	cout << "Explicit Method: " << Method1.v(0.0, s0) << endl;
 
 	// Implicit Method - LU Decomposition
-	ImplicitMethods Method(&BSPDE, imax, jmax);
-	Method.solveByLUDecomposition();
-	cout << "Implicit Method (LU): " << Method.v(0,0, s0) << endl;
+	ImplicitMethods Method2(&BSPDE, imax, jmax);
+	Method2.solveByLUDecomposition();
+	cout << "Implicit Method (LU): " << Method2.v(0.0, s0) << endl;
 
 	// Implicit Method - Sucessive Over Relaxation
-	ImplicitMethods Method(&BSPDE, imax, jmax);
-	Method.solveBySOR();
-	cout << "Implicit Method (SOR): " << Method.v(0,0, s0) << endl;
+	ImplicitMethods Method3(&BSPDE, imax, jmax);
+	Method3.solveBySOR();
+	cout << "Implicit Method (SOR): " << Method3.v(0.0, s0) << endl;
 
 	// Crank Nicolson Method
-	CNMethod Method(&BSPDE, imax, jmax);
-	Method.solveByLUDecomposition();
-	cout << "Crank Nicolson Method: " << Method.v(0,0, s0) << endl;
+	CNMethod Method4(&BSPDE, imax, jmax);
+	Method4.solveByLUDecomposition();
+	cout << "Crank Nicolson Method: " << Method4.v(0.0, s0) << endl;
 
 	system("pause");
 	return 0;
